@@ -13,7 +13,7 @@ bot.command('start', (ctx) => {
   });
   
 bot.on('text', async (ctx) => {
-    if (ctx.message.text.mention) {
+    if (ctx.message.mention) {
         try {
         const response = await openai.createCompletion({
             model: 'text-davinci-003',
