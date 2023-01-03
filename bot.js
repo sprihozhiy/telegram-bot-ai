@@ -19,7 +19,7 @@ bot.on('text', async (ctx) => {
             model: 'text-davinci-002',
             prompt: ctx.message.text,
             temperature: 0.5,
-            max_tokens: 150
+            max_tokens: 250
         });
         // console.log(response.data);
         ctx.reply(response.data.choices[0].text);
