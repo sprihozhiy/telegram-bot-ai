@@ -1,29 +1,33 @@
-const Telegraf = require('telegraf');
+const { Telegraf } = require('telegraf');
+const { Configuration, OpenAIApi } = require("openai");
 require('dotenv').config();
 
-const OPENAI_API_KEY = process.env.OPEN_AI_API;
+const configuration = new Configuration({
+    apiKey: process.env.OPEN_AI_API,
+});
+const openai = new OpenAIApi(configuration);
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.command('start', (ctx) => {
-  ctx.reply('Welcome to my chat bot! How can I help you today?');
-});
-
+    ctx.reply('Hey fella! How can I help you?');
+  });
+  
 bot.on('text', async (ctx) => {
-  if (ctx.message.text.startsWith('RM bot')) {
-    const response = await fetch(`https://api.openai.com/v1/text-davinci/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        'model': 'text-davinci-002',
-        'prompt': ctx.message.text.substring(7)
-      })
-    });
-    const data = await response.json();
-    ctx.reply(data.choices[0].text);
-  }
+    // if (ctx.message.text.startsWith('RM bot')) {
+        try {
+        const response = await openai.createCompletion({
+            model: 'text-davinci-002',
+            prompt: ctx.message.text,
+            temperature: 0.5,
+            max_tokens: 150
+        });
+        console.log(response.data);
+        ctx.reply(response.data.choices[0].text);
+        } catch (error) {
+            console.error(error);
+            ctx.reply('Sorry, something went wrong. Please try again later.');
+        }
+    // }
 });
-
-bot.launch();
+  
+  bot.launch();
