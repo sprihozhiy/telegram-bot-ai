@@ -13,7 +13,7 @@ bot.command('start', (ctx) => {
   });
   
 bot.on('text', async (ctx) => {
-    if (ctx.message.mention) {
+    if (ctx.message.text.includes(`@${bot.options.username}`)) {
         try {
         const response = await openai.createCompletion({
             model: 'text-davinci-003',
