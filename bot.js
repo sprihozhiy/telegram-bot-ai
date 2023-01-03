@@ -13,10 +13,10 @@ bot.command('start', (ctx) => {
   });
   
 bot.on('text', async (ctx) => {
-    // if (ctx.message.text.startsWith('RM bot')) {
+    if (ctx.message.text.mention) {
         try {
         const response = await openai.createCompletion({
-            model: 'text-davinci-002',
+            model: 'text-davinci-003',
             prompt: ctx.message.text,
             temperature: 0.5,
             max_tokens: 250
@@ -27,7 +27,7 @@ bot.on('text', async (ctx) => {
             console.error(error);
             ctx.reply('Sorry, something went wrong. Please try again later.');
         }
-    // }
+    }
 });
   
-  bot.launch();
+bot.launch();
