@@ -6,15 +6,15 @@ const configuration = new Configuration({
     apiKey: process.env.OPEN_AI_API,
 });
 const openai = new OpenAIApi(configuration);
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf(process.env.TEST_BOT_TOKEN);
 
 bot.command('start', (ctx) => {
     ctx.reply('Hey fella! How can I help you?');
   });
   
 bot.on('text', async (ctx) => {
-    console.log(ctx.message.text);
-    if (ctx.message.text.includes(`@rmfella_bot`)) {
+    console.log(ctx.message.text.includes(`@testaiai_bot`));
+    if (ctx.message.text.includes(`@testaiai_bot`)) {
         try {
         const response = await openai.createCompletion({
             model: 'text-davinci-003',
