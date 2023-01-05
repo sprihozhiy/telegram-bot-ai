@@ -14,13 +14,13 @@ bot.command('start', (ctx) => {
   
 bot.on('text', async (ctx) => {
     console.log(ctx.message.text);
-    if (ctx.message.text.includes(`@rmfella_bot`)) {
+    // if (ctx.message.text.includes(`@rmfella_bot`)) {
         try {
         const response = await openai.createCompletion({
             model: 'text-davinci-003',
             prompt: ctx.message.text,
-            temperature: 0.5,
-            max_tokens: 150
+            temperature: 0.3,
+            max_tokens: 300
         });
         // console.log(response.data);
         ctx.reply(response.data.choices[0].text);
@@ -28,7 +28,7 @@ bot.on('text', async (ctx) => {
             console.error(error);
             ctx.reply('Sorry, something went wrong. Please try again later.');
         }
-    }
+    // }
 });
   
 bot.launch();
