@@ -17,7 +17,7 @@ bot.command('start', (ctx) => {
   
 bot.on('text', async (ctx) => {
     // console.log(ctx.message.text);
-     if (ctx.message.text.includes(`@rmfella_bot`)) {
+    //  if (ctx.message.text.includes(`@rmfella_bot`)) {
         // Retrieve the conversation history for this user from Firestore
         const userId = ctx.from.id;
         const conversationRef = doc(db, "conversations", userId.toString());
@@ -49,7 +49,7 @@ bot.on('text', async (ctx) => {
             console.error(error);
             ctx.reply('Sorry, something went wrong. Please try again later.');
         }
-    }
+    // }
 });
   
 bot.launch();
