@@ -43,7 +43,7 @@ bot.on('text', async (ctx) => {
       ctx.reply('Sorry, something went wrong. Please try again later.');
     }
   } else {
-    // The message was sent in a group
+    // The message was sent in a group or a supergroup
     if (ctx.message.text.includes(`@rmfella_bot`)) {
       const userId = ctx.from.id;
       const conversationRef = doc(db, "conversations", userId.toString());
