@@ -42,8 +42,8 @@ bot.on('text', async (ctx) => {
       console.error(error);
       ctx.reply('Sorry, something went wrong. Please try again later.');
     }
-  } else if (ctx.message.chat.type === 'group') {
-    // The message was sent in a group
+  } else {
+    // The message was sent in a group or a supergroup
     if (ctx.message.text.includes(`@rmfella_bot`)) {
       const userId = ctx.from.id;
       const conversationRef = doc(db, "conversations", userId.toString());
@@ -54,14 +54,14 @@ bot.on('text', async (ctx) => {
       } else {
         conversation = conversationDoc.data().conversation;
       }
-      conversation.push(ctx.message.text);
+      conversation.push(ctx.message.text.substring(13));
       setDoc(conversationRef, { conversation: conversation }, { merge: true });
       try {
         const response = await openai.createCompletion({
           model: 'text-davinci-003',
           prompt: conversation.join('\n') + '\n' + ctx.message.text.substring(13),
           temperature: 0.3,
-          max_tokens: 300,
+          max_tokens: 200,
           presence_penalty: -0.2,
         });
         ctx.reply(response.data.choices[0].text);
