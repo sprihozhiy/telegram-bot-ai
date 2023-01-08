@@ -17,19 +17,23 @@ bot.command('start', (ctx) => {
   
 bot.on('text', async (ctx) => {
     // console.log(ctx.message.text);
-     if (ctx.message.text.includes(`@rmfella_bot`) || ctx.message.text.includes(`bot`)) {
+    //  if (ctx.message.text.includes(`@rmfella_bot`)) {
         // Retrieve the conversation history for this user from Firestore
         const userId = ctx.from.id;
+        
         const conversationRef = doc(db, "conversations", userId.toString());
         const conversationDoc = await getDoc(conversationRef);
-        let conversation = conversationDoc.data().conversation;
-        if (!conversation) {
+        
+        let conversation
+        if (conversationDoc.data() === undefined) {
           conversation = [];
-        } 
+        } else {
+          conversation = conversationDoc.data().conversation;
+        }
         
         conversation.push(ctx.message.text);
         
-        console.log(conversation);
+        // console.log(conversation);
         // Add the current message to the conversation history
         
         // Update the conversation history in Firestore
@@ -49,7 +53,7 @@ bot.on('text', async (ctx) => {
             console.error(error);
             ctx.reply('Sorry, something went wrong. Please try again later.');
         }
-    }
+    // }
 });
   
 bot.launch();
